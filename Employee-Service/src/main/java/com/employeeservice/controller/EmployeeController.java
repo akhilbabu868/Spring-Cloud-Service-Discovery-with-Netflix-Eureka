@@ -58,20 +58,29 @@ public class EmployeeController {
 			@RequestParam(value = "correspondence_address", required = false) String tempAddress
 
 	) {
-		objEmployee.setFirst_name(firstName);
-		objEmployee.setLast_name(lastName);
-		objEmployee.setEmail(Email);
-		objEmployee.setEmployee_code(Code);
-		objEmployee.setPosition(Position);
-		objEmployee.setMobile(Mobile);
-		objEmployee.setSalary(Salary);
-		if (service.add(objEmployee) == 1)
+		if(objEmployee.getEmail() == Email)
 		{
-			objaddress.setPermanent_address(Address);
-			objaddress.setCorrespondence_address(tempAddress);
-			objaddress.setEmployee_id(objEmployee.getId());
-			addressservice.SaveAddress(objaddress);
+			
+			System.out.println("Email Already Exisits");
+			
+		}else {
+			
+			objEmployee.setFirst_name(firstName);
+			objEmployee.setLast_name(lastName);
+			objEmployee.setEmail(Email);
+			objEmployee.setEmployee_code(Code);
+			objEmployee.setPosition(Position);
+			objEmployee.setMobile(Mobile);
+			objEmployee.setSalary(Salary);
+			if (service.add(objEmployee) == 1)
+			{
+				objaddress.setPermanent_address(Address);
+				objaddress.setCorrespondence_address(tempAddress);
+				objaddress.setEmployee_id(objEmployee.getId());
+				addressservice.SaveAddress(objaddress);
+			}
 		}
+		
 
 	}
 	
