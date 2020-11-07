@@ -7,4 +7,5 @@ public interface addressservice {
 	
 	void SaveAddress(addressmaster address);
 	
+	 int updateAddress(int employeId,String address,String tempaddress);
 }

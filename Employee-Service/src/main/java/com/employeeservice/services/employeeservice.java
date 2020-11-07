@@ -11,11 +11,13 @@ import com.employeeservice.model.employees;
 public interface employeeservice {
 
 
-	List<employees> employeelistAll();
+	List<getAllList> employeelistAll();
 	
 	int add(employees emp);
 
 	void delete(int id);
+
+	employees getEmployeesById(int id);
 	
 	
 

@@ -13,6 +13,7 @@ import com.employeeservice.model.addressmaster;
 import com.employeeservice.model.employees;
 import com.employeeservice.repository.employeeRepository;
 import com.employeeservice.services.employeeservice;
+import com.employeeservice.services.getAllList;
 
 
 @SuppressWarnings("unused")
@@ -28,9 +29,9 @@ private final employeeRepository repo;
     }
 
 	@Override
-	public List<employees> employeelistAll() {
+	public List<getAllList> employeelistAll() {
 		// TODO Auto-generated method stub
-		return repo.findAll();
+		return repo.getEmployee();
 	}
 
 	@Override
@@ -46,8 +47,11 @@ private final employeeRepository repo;
 		repo.deleteById(id);  
 	}  
 	
-
-	
+	@Override
+	public employees getEmployeesById(int id)   
+	{  
+	return repo.findById(id).get();  
+	} 
 
 
 	

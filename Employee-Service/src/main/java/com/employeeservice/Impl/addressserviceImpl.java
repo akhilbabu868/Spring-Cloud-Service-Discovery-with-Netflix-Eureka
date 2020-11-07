@@ -27,4 +27,18 @@ private final addressRepository repo;
 		repo.save(address);
 	}
 
+
+	@Override
+	public int updateAddress(int employeId, String address, String tempaddress) {
+		// TODO Auto-generated method stub
+		int flag;
+		if((repo.updateAddress(employeId, address, tempaddress) == 1))
+		{
+			flag =1;
+		}else {
+			flag =0;
+		}
+		return flag;
+	}
+
 }

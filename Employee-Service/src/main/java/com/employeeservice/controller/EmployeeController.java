@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.employeeservice.model.addressmaster;
 import com.employeeservice.model.employees;
 import com.employeeservice.services.addressservice;
+import com.employeeservice.services.employeeDTO;
 import com.employeeservice.services.employeeservice;
+import com.employeeservice.services.getAllList;
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+
+import aj.org.objectweb.asm.Type;
 
 @RestController
 public class EmployeeController {
@@ -29,14 +36,16 @@ public class EmployeeController {
 	@Autowired
 	private addressservice addressservice;
 
-	@GetMapping("/")
-	public List<employees> employeeList() {
+	private employeeservice name;
 
-		List<employees> emp = service.employeelistAll();
-		return emp;
+	@GetMapping("/")
+	public List<getAllList> employeeList() {
+
+		List<getAllList> empList = service.employeelistAll();
+		return empList;
 	}
 
-	@PostMapping("/employeeadd")
+	@PostMapping("/employee/add")
 	public void add(employees objEmployee, addressmaster objaddress,
 			@RequestParam(value = "first_name", required = false) String firstName,
 			@RequestParam(value = "last_name", required = false) String lastName,
@@ -67,10 +76,9 @@ public class EmployeeController {
 	}
 	
 	
-	
-	
-	@PutMapping("/employeeupdate")
+	@PutMapping("/employee/update")
 	public void update(employees objEmployee, addressmaster objaddress,
+			@RequestParam(value = "id", required = false) Integer Id,
 			@RequestParam(value = "first_name", required = false) String firstName,
 			@RequestParam(value = "last_name", required = false) String lastName,
 			@RequestParam(value = "email", required = false) String Email,
@@ -82,7 +90,7 @@ public class EmployeeController {
 			@RequestParam(value = "correspondence_address", required = false) String tempAddress
 
 	) {
-		
+		objEmployee = service.getEmployeesById(Id);
 		objEmployee.setFirst_name(firstName);
 		objEmployee.setLast_name(lastName);
 		objEmployee.setEmail(Email);
@@ -92,10 +100,8 @@ public class EmployeeController {
 		objEmployee.setSalary(Salary);
 		if (service.add(objEmployee) == 1)
 		{
-			objaddress.setPermanent_address(Address);
-			objaddress.setCorrespondence_address(tempAddress);
-			objaddress.setEmployee_id(objEmployee.getId());
-			addressservice.SaveAddress(objaddress);
+			
+			addressservice.updateAddress(Id, Address, tempAddress);
 		}
 
 	}
